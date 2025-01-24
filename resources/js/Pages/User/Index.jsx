@@ -2,9 +2,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {Head, Link, router} from "@inertiajs/react";
 import Pagination from "@/Components/Pagination.jsx";
 import TextInput from "@/Components/TextInput.jsx";
-import SelectInput from "@/Components/SelectInput.jsx";
-import ChevronUp from "@/Components/ChevronUp.jsx";
-import ChevronDown from "@/Components/ChevronDown.jsx";
 import TableHead from "@/Components/TableHead.jsx";
 
 export default function Index({users, queryPara = null, success}){

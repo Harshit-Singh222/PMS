@@ -16,7 +16,6 @@ export default function Edit({project}){
         _method: 'PUT',
     })
     const submit = (e) => {
-
         e.preventDefault();
         post(route('project.update', project.id))
     }
