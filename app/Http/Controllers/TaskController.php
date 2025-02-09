@@ -7,9 +7,12 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\UserResource;
+use App\Models\Point;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
@@ -130,7 +133,22 @@ class TaskController extends Controller
             }
             $data['image_path'] = $image->store('task', 'public');
         }
-        $task->update($data);
+        DB::transaction(function () use ($data, $task){
+            $task->update($data);
+            $points = 0;
+            $data['status'] == 'completed' ? $points = 10 : $points = 0;
+            if ($task->point){
+                $task->point()->update([
+                    'quantity' => $points,
+                    'user_id' => $data['assigned_user_to'],
+                ]);
+            } else {
+                $task->point()->create([
+                    'quantity' => $points,
+                    'user_id' => $data['assigned_user_to'],
+                ]);
+            }
+        });
         return redirect()->route('task.index')->with('success', 'Task updated successfully.');
     }
 

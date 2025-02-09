@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -26,6 +27,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('task/my-tasks', [TaskController::class, 'myTasks'])->name('task.my-tasks');
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
+    Route::get('/leaderboard', [PointController::class,'leaderboard'])->name('leaderboard');
 });
 
 

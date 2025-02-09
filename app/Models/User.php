@@ -47,4 +47,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function points(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Point::class);
+    }
+
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_user_to');
+    }
 }
