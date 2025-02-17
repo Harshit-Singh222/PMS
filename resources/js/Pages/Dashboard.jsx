@@ -32,18 +32,18 @@ export default function Dashboard(
                             <div className="px-2 pt-2 flex justify-between items-center">
                                 <div>
                                     <Link href={route('leaderboard')} className="underline-offset-4 under hover:underline">
-                                        <span className="font-medium text-gray-800">Current Ranking</span> - <span className={(rank ? 'text-green-700 ' : 'text-red-700 ')+ ('p-2 bg-gray-50 font-bold rounded-full') }>{rank ? rank : "Not on Leaderboard" }</span>
+                                        <span className="font-medium text-gray-800">Current Ranking</span> - <span className={( rank > 10 ? 'text-amber-700 ' : 'text-green-700 ')+ ('p-2 bg-gray-50 font-bold rounded-full') }>{rank < 10 ? rank : `(${rank}) Not on Leaderboard` }</span>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link href={route('leaderboard')}
+                                    <Link href={route('task.my-tasks')}
                                           className="underline-offset-4 under hover:underline">
                                         <span className="font-medium text-gray-800">Current Streak</span> - <span
                                         className={(currentStreak > 2 ? 'text-green-700 ' : (currentStreak <= 1 ? 'text-red-700 ' : 'text-yellow-600 ')) + ('p-2 bg-gray-50 font-bold rounded-full')}>{currentStreak ? currentStreak : "No Streak Yet"}</span>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link href={route('leaderboard')}
+                                    <Link href={route('task.my-tasks')}
                                           className="underline-offset-4 under hover:underline">
                                         <span className="font-medium text-gray-800">Max Streak</span> - <span
                                         className={(maxStreak > 2 ? 'text-green-700 ' : (maxStreak <= 1 ? 'text-red-700 ' : 'text-yellow-600 ')) + ('p-2 bg-gray-50 font-bold rounded-full')}>{maxStreak ? maxStreak : "No Streak Yet"}</span>
