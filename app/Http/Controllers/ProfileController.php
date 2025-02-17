@@ -97,8 +97,8 @@ class ProfileController extends Controller
         $maxStreak = 0;
         $currentStreak = 0;
         $lastDate = $sortedDates[1];
-        $today = Carbon::today()->toDateString(); // Current date
-        $currentStreakActive = false; // Track if the streak is ongoing
+        $today = Carbon::today()->toDateString();
+        $currentStreakActive = false;
 
         for ($i = 1; $i < $sortedDates->count(); $i++) {
             $currentDate = $sortedDates[$i];
@@ -106,11 +106,11 @@ class ProfileController extends Controller
             if ($lastDate) {
                 $diff = Carbon::parse($lastDate)->diffInDays(Carbon::parse($currentDate));
 
-                if ($diff == 1) { // Consecutive day
+                if ($diff == 1) {
                     $currentStreak++;
                 } else {
                     $maxStreak = max($maxStreak, $currentStreak);
-                    $currentStreak = 1; // Reset streak
+                    $currentStreak = 1;
                 }
             }
             if ($currentDate === $today || Carbon::parse($currentDate)->diffInDays($today) == 1) {
