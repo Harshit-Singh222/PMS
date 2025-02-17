@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LeaderboardResource;
 use App\Models\Point;
 use App\Models\User;
+use App\Services\RankingService;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
@@ -15,6 +16,9 @@ class PointController extends Controller
             ->orderByDesc('points_sum_quantity')
             ->take(10) // Fetch top 10 users
             ->get();
+
+//        $r = new RankingService();
+//        $r->updateRanking($users);
 
         return inertia('Leaderboard', [
             'users' => LeaderboardResource::collection($users),

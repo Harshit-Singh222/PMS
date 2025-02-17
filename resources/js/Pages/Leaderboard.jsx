@@ -25,10 +25,13 @@ export default function Leaderboard(
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
-                                <div className="relative overflow-x-auto shadow-sm sm:rounded-lg">
+                                <div className="relative overflow-x-auto shadow-sm ">
                                     <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 text-center">
+                                        <thead className="text-xs text-gray-700 uppercase bg-gray-200 text-center">
                                         <tr>
+                                            <th scope="col" className="px-6 py-3">
+                                                #
+                                            </th>
                                             <th scope="col" className="px-6 py-3">
                                                 User Name
                                             </th>
@@ -46,6 +49,9 @@ export default function Leaderboard(
                                         <tbody>
                                         {users.data.map((user, index) =>(
                                             <tr key={index} className="odd:bg-white even:bg-gray-50 border-b border-gray-200 text-center">
+                                                <td scope="row" className="px-6 py-4 text-gray-900">
+                                                    {index + 1}
+                                                </td>
                                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                     {user.name}
                                                 </th>

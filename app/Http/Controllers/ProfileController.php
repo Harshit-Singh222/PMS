@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -73,6 +75,62 @@ class ProfileController extends Controller
         $totalCompletedTasks = Task::where('status', 'completed')->count();
         $totalPendingTasks = Task::where('status', 'pending')->count();
 
+
+        // Ranking Logic
+        $loggedUser = Auth::user();
+        $loggedUserScore = User::withSum('points', 'quantity')
+            ->where('id', $loggedUser->id)
+            ->value('points_sum_quantity');
+
+        $loggedUserRank = User::withSum('points', 'quantity')
+                ->having('points_sum_quantity', '>', $loggedUserScore)
+                ->count() + 1;
+
+        if($loggedUserRank > 10){
+            $loggedUserRank = 0;
+        }
+
+
+
+
+        // Task Streak Logic
+        $timestamps = $loggedUser->tasks()
+            ->pluck('updated_at')
+            ->unique();
+        $dates = $timestamps->map(fn($timestamp) => Carbon::parse($timestamp)->toDateString());
+        $sortedDates = $dates->sort()->values();
+
+        $maxStreak = 0;
+        $currentStreak = 0;
+        $lastDate = $sortedDates[1];
+        $today = Carbon::today()->toDateString(); // Current date
+        $currentStreakActive = false; // Track if the streak is ongoing
+
+        for ($i = 1; $i < $sortedDates->count(); $i++) {
+            $currentDate = $sortedDates[$i];
+
+            if ($lastDate) {
+                $diff = Carbon::parse($lastDate)->diffInDays(Carbon::parse($currentDate));
+
+                if ($diff == 1) { // Consecutive day
+                    $currentStreak++;
+                } else {
+                    $maxStreak = max($maxStreak, $currentStreak);
+                    $currentStreak = 1; // Reset streak
+                }
+            }
+
+            if ($currentDate === $today || Carbon::parse($currentDate)->diffInDays($today) == 1) {
+                $currentStreakActive = true;
+            }
+
+            $lastDate = $currentDate;
+        }
+
+        $maxStreak = max($maxStreak, $currentStreak);
+        $currentStreak = $currentStreakActive ? $currentStreak : 0;
+
+
         $tasks = Task::where('assigned_user_to', Auth::id())->whereIn('status',['pending','in_progress'])->limit(10)->get();
         return inertia('Dashboard',[
             "tasks" => TaskResource::collection($tasks),
@@ -83,6 +141,9 @@ class ProfileController extends Controller
             'totalInProgressTasks' => $totalInProgressTasks,
             'totalPendingTasks' => $totalPendingTasks,
             'totalCompletedTasks' => $totalCompletedTasks,
+            'rank' => $loggedUserRank,
+            'maxStreak' => $maxStreak,
+            'currentStreak' => $currentStreak,
         ]);
     }
 }

@@ -11,6 +11,9 @@ export default function Dashboard(
         totalInProgressTasks,
         totalPendingTasks,
         totalCompletedTasks,
+        rank,
+        maxStreak,
+        currentStreak
     }) {
     return (
         <AuthenticatedLayout
@@ -25,6 +28,29 @@ export default function Dashboard(
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="px-6 pt-5">
+                            <div className="px-2 pt-2 flex justify-between items-center">
+                                <div>
+                                    <Link href={route('leaderboard')} className="underline-offset-4 under hover:underline">
+                                        <span className="font-medium text-gray-800">Current Ranking</span> - <span className={(rank ? 'text-green-700 ' : 'text-red-700 ')+ ('p-2 bg-gray-50 font-bold rounded-full') }>{rank ? rank : "Not on Leaderboard" }</span>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link href={route('leaderboard')}
+                                          className="underline-offset-4 under hover:underline">
+                                        <span className="font-medium text-gray-800">Current Streak</span> - <span
+                                        className={(currentStreak > 2 ? 'text-green-700 ' : (currentStreak <= 1 ? 'text-red-700 ' : 'text-yellow-600 ')) + ('p-2 bg-gray-50 font-bold rounded-full')}>{currentStreak ? currentStreak : "No Streak Yet"}</span>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link href={route('leaderboard')}
+                                          className="underline-offset-4 under hover:underline">
+                                        <span className="font-medium text-gray-800">Max Streak</span> - <span
+                                        className={(maxStreak > 2 ? 'text-green-700 ' : (maxStreak <= 1 ? 'text-red-700 ' : 'text-yellow-600 ')) + ('p-2 bg-gray-50 font-bold rounded-full')}>{maxStreak ? maxStreak : "No Streak Yet"}</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
                         <div className="p-6 text-gray-900 flex gap-4 justify-between">
                             <div className="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow">
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-amber-800">Pending Tasks</h5>
