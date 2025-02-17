@@ -134,7 +134,7 @@ class ProfileController extends Controller
             'totalInProgressTasks' => $totalInProgressTasks,
             'totalPendingTasks' => $totalPendingTasks,
             'totalCompletedTasks' => $totalCompletedTasks,
-            'rank' => 11,
+            'rank' => $loggedUserRank,
             'maxStreak' => $maxStreak,
             'currentStreak' => $currentStreak,
         ]);
