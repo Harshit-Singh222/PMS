@@ -86,12 +86,6 @@ class ProfileController extends Controller
                 ->having('points_sum_quantity', '>', $loggedUserScore)
                 ->count() + 1;
 
-        if($loggedUserRank > 10){
-            $loggedUserRank = 0;
-        }
-
-
-
 
         // Task Streak Logic
         $timestamps = $loggedUser->tasks()
@@ -119,14 +113,13 @@ class ProfileController extends Controller
                     $currentStreak = 1; // Reset streak
                 }
             }
-
             if ($currentDate === $today || Carbon::parse($currentDate)->diffInDays($today) == 1) {
                 $currentStreakActive = true;
             }
-
             $lastDate = $currentDate;
         }
 
+        // Max and Current Streak
         $maxStreak = max($maxStreak, $currentStreak);
         $currentStreak = $currentStreakActive ? $currentStreak : 0;
 
@@ -141,7 +134,7 @@ class ProfileController extends Controller
             'totalInProgressTasks' => $totalInProgressTasks,
             'totalPendingTasks' => $totalPendingTasks,
             'totalCompletedTasks' => $totalCompletedTasks,
-            'rank' => $loggedUserRank,
+            'rank' => 11,
             'maxStreak' => $maxStreak,
             'currentStreak' => $currentStreak,
         ]);
