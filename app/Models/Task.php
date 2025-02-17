@@ -27,4 +27,8 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'assigned_user_to');
     }
+    public function point(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Point::class);
+    }
 }

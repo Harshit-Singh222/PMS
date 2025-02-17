@@ -98,6 +98,7 @@ export default function Index({users, queryPara = null, success}){
                                             name={'created_at'}>
                                             Created At
                                         </TableHead>
+                                        <th className="px-3 py-2 text-right">Points</th>
                                         <th className="px-3 py-2 text-right">Actions</th>
                                     </tr>
                                 </thead>
@@ -130,6 +131,7 @@ export default function Index({users, queryPara = null, success}){
                                     </th>
                                     <th className="px-3 py-2"></th>
                                     <th className="px-3 py-2"></th>
+                                    <th className="px-3 py-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,6 +144,13 @@ export default function Index({users, queryPara = null, success}){
                                         </td>
                                         <td className="px-3 py-2 text-nowrap">{user.email}</td>
                                         <td className="px-3 py-2 text-nowrap">{user.created_at}</td>
+                                        <td className="px-3 py-2 text-nowrap text-center">
+                                            <div className={
+                                                user.points > 10 ? (' text-green-600') : (' text-red-600')
+                                            }>
+                                                {user.points}
+                                            </div>
+                                        </td>
                                         <td className="px-3 py-2 text-nowrap text-right">
                                             <Link href={route('user.edit', user.id)} className="font-medium text-blue-600 hover:underline mx-1">
                                                 Edit

@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class LeaderboardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +15,10 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
             'points' => $this->points()->sum('quantity'),
-            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
+            'total_tasks' => $this->tasks->count(),
+            'completed_tasks' => $this->tasks()->where('status', 'completed')->count(),
         ];
     }
 }
